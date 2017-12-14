@@ -18,9 +18,13 @@ There are three key innovations:
 
 ### How Does *ybar* Work?
 
-The [initial spec sheet](ybar.pdf) for the software provides a great place to learn about how ybar is implemented. While implementing the software, we stumbled upon a few insights. Here's a document that discusses the [workflow and the general application architecture](app_architecture_workflow.md).
+The [initial spec sheet](ybar.pdf) for the software provides a great place to learn about how *ybar* is implemented. While implementing the software, we stumbled upon a few insights. The final version is a bit different. 
 
-### Potential Applications
+We illustrate a potential workflow supported by the application with a concrete example:
+
+A 'research company' (you) take request from a researcher to estimate the [proportion of women on the streets in Delhi](https://github.com/geosensing/women-count). You use [geo_sampling](https://github.com/geosensing/geo_sampling) to come up with a sample of locations, and [allocator](https://github.com/geosensing/allocator) to come up with daily itineraries for the people who work for you. You then create tasks and post them to the application. The worker accepts the tasks, takes pictures in a manner specified in the task, the details of which have to be super precise (what angle, what height, etc.), submits the tasks for approval to the administrator (you), and gets money once the submission is approved. Once all the tasks are done, you either link the collected images to a ML-pipeline or to M-Turk to code the images.
+
+### Other Potential Applications
 
 - [Potential Applications](potential_applications.md)
 
