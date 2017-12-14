@@ -1,0 +1,688 @@
+<ion-view cache-view="false" title="{{task.task.title}}" id="page11" style="background: #292C34; display: flex; flex-direction: column;">
+    <ion-content padding="false" class="has-header">
+      <div ng-if="sensor === 'magicBox'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.magicBox.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+              </div>
+            </div>
+            <div ng-if="taskData.magicBox.status === 'true'">
+              <div class="doTask description">
+                <canvas id="doughnut" class="chart chart-doughnut"
+                  chart-data="magicBox.progress" chart-labels="magicBox.labels">
+                </canvas>
+              </div>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+
+          </div>
+        </div>
+        <div class="row" ng-if="task.user_task.task_status !== 'completed' && taskData.magicBox.hideControls !== 'true'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.sound.status !== 'true'" ng-click="magicBox()" class="task-button center-button icon">
+                    <i class="ion-ios-color-wand-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction"  class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.sound.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')" ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'sound'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.sound.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+              </div>
+            </div>
+            <div ng-if="taskData.sound.status === 'true'">
+              <audio ng-src="{{sound.path}}" controls>
+              Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <audio ng-src="{{task_data.sound.path}}" controls>
+            Your browser does not support the audio element.
+            </audio>
+          </div>
+        </div>
+        <div class="row" ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.sound.status !== 'true'" ng-click="captureAudio()" class="task-button center-button icon">
+                    <i class="ion-ios-mic-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction"  class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.sound.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')" ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'image'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div  ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.image.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+              </div>
+            </div>
+            <div ng-if="taskData.image.status === 'true'">
+              <img src="{{taskData.image.path}}" style="max-width: 100vw; display:block; opacity: 1; margin-top: auto; margin-bottom: auto;" />
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <img src="{{task_data.image.path}}" style="max-width: 100vw; display:block; opacity: 1; margin-top: auto; margin-bottom: auto;" />
+          </div>
+        </div>
+        <div class="row" ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.image.status !== 'true'" ng-click="captureImage()" class="task-button center-button icon">
+                    <i class="ion-ios-camera-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.image.status !== 'true' && distance.value > task.task.location_restriction"  class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.image.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'images'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div  ng-if="inRange === 'false' && task.user_task.task_status !== 'completed' && taskData.images.status !== 'true'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.images.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+              </div>
+            </div>
+            <div ng-if="taskData.images.status === 'true'">
+              <ion-slide-box>
+                <ion-slide ng-repeat="path in taskData.images.paths" style="background-image:url({{path}}); background-size:cover; background-position:center;">
+                  <div class="slidebox blue">
+
+                  </div>
+                </ion-slide>
+              </ion-slide-box>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <ion-slide-box>
+              <ion-slide ng-repeat="path in task_data.images.paths" style="background-image:url({{path}}); background-size:cover; background-position:center;">
+                <div class="slidebox blue">
+
+                </div>
+              </ion-slide>
+            </ion-slide-box>
+          </div>
+        </div>
+        <div class="row" ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.images.status !== 'true'" ng-click="captureImages()" class="task-button center-button icon">
+                    <i class="ion-ios-camera-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if=" taskData.images.status !== 'true' && distance.value > task.task.location_restriction"  class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.images.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'video'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div  ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.video.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+
+              </div>
+            </div>
+            <div ng-if="taskData.video.status === 'true'">
+              <!-- <videogular>
+			             <vg-media vg-src="taskData.video.path">
+                   </vg-media>
+              </videogular> -->
+              <video controls autoplay>
+                <source ng-src="{{video.path}}" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <video controls autoplay>
+              <source ng-src="{{task_data.video.path}}" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="row"  ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.video.status !== 'true'" ng-click="captureVideo()" class="task-button center-button icon">
+                    <i class="ion-ios-videocam-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction" class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.video.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'currentAcceleration'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div  ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.currentAcceleration.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+
+              </div>
+            </div>
+            <div ng-if="taskData.currentAcceleration.status === 'true'">
+              <div class="doTask description">
+                <p>X : <span ng-bind="acceleration.x"></span></p>
+                <p>Y : <span ng-bind="acceleration.y"></span></p>
+                <p>Z : <span ng-bind="acceleration.z"></span></p>
+                <p>T : <span ng-bind="acceleration.timeStamp"></span></p>
+              </div>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <div class="doTask description">
+              <p>X : <span ng-bind="task_data.currentAcceleration.x"></span></p>
+              <p>Y : <span ng-bind="task_data.currentAcceleration.y"></span></p>
+              <p>Z : <span ng-bind="task_data.currentAcceleration.z"></span></p>
+              <p>T : <span ng-bind="task_data.currentAcceleration.timeStamp"></span></p>
+            </div>
+          </div>
+        </div>
+        <div class="row"  ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.currentAcceleration.status !== 'true'" ng-click="currentAcceleration()" class="task-button center-button icon">
+                    <i class="ion-ios-speedometer-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction" class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.currentAcceleration.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'watchAcceleration'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div  ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.watchAcceleration.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+
+              </div>
+            </div>
+            <div ng-if="taskData.watchAcceleration.status === 'true'">
+              <div class="doTask description">
+                <p>X : <span ng-bind="acceleration.x"></span></p>
+                <p>Y : <span ng-bind="acceleration.y"></span></p>
+                <p>Z : <span ng-bind="acceleration.z"></span></p>
+                <p>T : <span ng-bind="acceleration.timeStamp"></span></p>
+              </div>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <div class="doTask description">
+              <p>X : <span ng-bind="task_data.watchAcceleration.x"></span></p>
+              <p>Y : <span ng-bind="task_data.watchAcceleration.y"></span></p>
+              <p>Z : <span ng-bind="task_data.watchAcceleration.z"></span></p>
+              <p>T : <span ng-bind="task_data.watchAcceleration.timeStamp"></span></p>
+            </div>
+          </div>
+        </div>
+        <div class="row"  ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.watchAcceleration.status !== 'true'" ng-click="watchAcceleration()" class="task-button center-button icon">
+                    <i class="ion-ios-speedometer-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction" class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.watchAcceleration.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'currentOrientation'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div  ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.currentOrientation.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+
+              </div>
+            </div>
+            <div ng-if="taskData.currentOrientation.status === 'true'">
+              <div class="doTask description">
+                <p>magneticHeading : <span ng-bind="orientation.magneticHeading"></span></p>
+                <p>trueHeading : <span ng-bind="orientation.trueHeading"></span></p>
+                <p>accuracy : <span ng-bind="orientation.accuracy"></span></p>
+                <p>timeStamp : <span ng-bind="orientation.timeStamp"></span></p>
+              </div>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <div class="doTask description">
+              <p>magneticHeading : <span ng-bind="task_data.currentOrientation.magneticHeading"></span></p>
+              <p>trueHeading : <span ng-bind="task_data.currentOrientation.trueHeading"></span></p>
+              <p>accuracy : <span ng-bind="task_data.currentOrientation.accuracy"></span></p>
+              <p>timeStamp : <span ng-bind="task_data.currentOrientation.timeStamp"></span></p>
+            </div>
+          </div>
+        </div>
+        <div class="row"  ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.currentOrientation.status !== 'true'" ng-click="currentOrientation()" class="task-button center-button icon">
+                    <i class="ion-compass"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction" class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.currentOrientation.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'watchOrientation'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div  ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.watchOrientation.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+              </div>
+            </div>
+            <div ng-if="taskData.watchOrientation.status === 'true'">
+              <div class="doTask description">
+                <p>magneticHeading : <span ng-bind="orientation.magneticHeading"></span></p>
+                <p>trueHeading : <span ng-bind="orientation.trueHeading"></span></p>
+                <p>accuracy : <span ng-bind="orientation.accuracy"></span></p>
+                <p>timeStamp : <span ng-bind="orientation.timeStamp"></span></p>
+              </div>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <div class="doTask description">
+              <p>magneticHeading : <span ng-bind="task_data.watchOrientation.magneticHeading"></span></p>
+              <p>trueHeading : <span ng-bind="task_data.watchOrientation.trueHeading"></span></p>
+              <p>accuracy : <span ng-bind="task_data.watchOrientation.accuracy"></span></p>
+              <p>timeStamp : <span ng-bind="task_data.watchOrientation.timeStamp"></span></p>
+            </div>
+          </div>
+        </div>
+        <div class="row"  ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.watchOrientation.status !== 'true'" ng-click="watchOrientation()" class="task-button center-button icon">
+                    <i class="ion-compass"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction" class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.watchOrientation.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'currentLocation'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div  ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.currentLocation.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+              </div>
+            </div>
+            <div ng-if="taskData.currentLocation.status === 'true'">
+              <div class="doTask description">
+                <p>Lat : <span ng-bind="location.lat"></span></p>
+                <p>Long : <span ng-bind="location.long"></span></p>
+              </div>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <div class="doTask description">
+              <p>Lat : <span ng-bind="task_data.currentLocation.lat"></span></p>
+              <p>Long : <span ng-bind="task_data.currentLocation.long"></span></p>
+            </div>
+          </div>
+        </div>
+        <div class="row"  ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.currentLocation.status !== 'true'" ng-click="currentLocation()" class="task-button center-button icon">
+                    <i class="ion-ios-location-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction" class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.currentLocation.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-if="sensor === 'watchLocation'" class="doTask task-container">
+        <div class="doTask task-display">
+          <div ng-if="inRange === 'false' && task.user_task.task_status !== 'completed'" id="mapDoTask" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+
+          </div>
+          <div ng-if="inRange === 'true' && task.user_task.task_status !== 'completed'" style="position:static; min-height:60vh; max-height:60vh; overflow:scroll;">
+            <div ng-if="taskData.watchLocation.status !== 'true'">
+              <div class="doTask description">
+                <p>{{task.task.description}}</p>
+              </div>
+            </div>
+            <div ng-if="taskData.watchLocation.status === 'true'">
+              <div class="doTask description">
+                <p>Lat : <span ng-bind="location.lat"></span></p>
+                <p>Long : <span ng-bind="location.long"></span></p>
+              </div>
+            </div>
+          </div>
+          <div ng-if="task.user_task.task_status === 'completed'">
+            <div class="doTask description">
+              <p>Lat : <span ng-bind="task_data.watchLocation.lat"></span></p>
+              <p>Long : <span ng-bind="task_data.watchLocation.long"></span></p>
+            </div>
+          </div>
+        </div>
+        <div class="row"  ng-if="task.user_task.task_status !== 'completed'">
+          <div class="col">
+            <div class="doTask task-controller">
+              <div class="row">
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonInfinite}" on-touch="onTouch('buttonInfinite')"  >
+                    <i class="ion-ios-infinite-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-if="distance.value < task.task.location_restriction && taskData.watchLocation.status !== 'true'" ng-click="watchLocation()" class="task-button center-button icon">
+                    <i class="ion-ios-navigate-outline"></i>
+                  </span>
+                  <span ng-click="refreshDistance()" ng-if="taskData.images.status !== 'true' && distance.value > task.task.location_restriction" class="task-button center-button distance">
+                    <i>{{distance.text}}</i>
+                  </span>
+                  <span ng-if="taskData.watchLocation.status === 'true'" ng-click="uploadTask()" class="task-button center-button icon">
+                    <i class="ion-ios-upload-outline"></i>
+                  </span>
+                </div>
+                <div class="col">
+                  <span ng-class="{'task-button': true, 'side-button': true, 'button-click': buttonUndo}" on-touch="onTouch('buttonUndo')" on-release="onRelease('buttonUndo')"  ng-click="redoTask();">
+                    <i class="ion-ios-undo-outline"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <!-- <a ng-if="sensor === 'sound'" ng-click="captureAudio()" class="button button-outline icon-right ion-mic-a button-balanced">Capture Audio</a>
+
+        <a ng-if="sensor === 'image'" ng-click="captureImage()" class="button button-outline icon-right ion-mic-a button-balanced">Capture Image</a>
+
+        <a ng-if="sensor === 'video'" ng-click="captureVideo()" class="button button-outline icon-right ion-mic-a button-balanced">Capture Video</a>
+
+        <a ng-if="sensor === 'video'" ng-click="captureVideo()" class="button button-outline icon-right ion-mic-a button-balanced">Capture Video</a>
+
+        <div ng-if="sensor === 'currentAcceleration'">
+          <a  ng-click="currentAcceleration()" class="button button-outline icon-right ion-mic-a button-balanced">Get Current Acceleration</a>
+          <h3>X : <span ng-bind="acceleration.x"></span></h3>
+          <h3>Y : <span ng-bind="acceleration.y"></span></h3>
+          <h3>Z : <span ng-bind="acceleration.z"></span></h3>
+          <h3>T : <span ng-bind="acceleration.timeStamp"></span></h3>
+        </div>
+
+        <div ng-if="sensor === 'watchAcceleration'">
+          <a  ng-click="watchAcceleration()" class="button button-outline icon-right ion-mic-a button-balanced">Watch Acceleration</a>
+          <h3>X : <span ng-bind="acceleration.x"></span></h3>
+          <h3>Y : <span ng-bind="acceleration.y"></span></h3>
+          <h3>Z : <span ng-bind="acceleration.z"></span></h3>
+          <h3>T : <span ng-bind="acceleration.timeStamp"></span></h3>
+
+          <a  ng-click="stopWatchAcceleration()" class="button button-outline icon-right ion-mic-a button-balanced">Stop Watch</a>
+        </div>
+
+
+        <div ng-if="sensor === 'currentOrientation'">
+          <a  ng-click="currentOrientation()" class="button button-outline icon-right ion-mic-a button-balanced">Get Current Orientation</a>
+          <h3>magneticHeading : <span ng-bind="orientation.magneticHeading"></span></h3>
+          <h3>trueHeading : <span ng-bind="orientation.trueHeading"></span></h3>
+          <h3>accuracy : <span ng-bind="orientation.accuracy"></span></h3>
+          <h3>timeStamp : <span ng-bind="orientation.timeStamp"></span></h3>
+        </div>
+
+        <div ng-if="sensor === 'watchOrientation'">
+          <a  ng-click="watchOrientation()" class="button button-outline icon-right ion-mic-a button-balanced">Watch Orientation</a>
+          <h3>magneticHeading : <span ng-bind="orientation.magneticHeading"></span></h3>
+          <h3>trueHeading : <span ng-bind="orientation.trueHeading"></span></h3>
+          <h3>accuracy : <span ng-bind="orientation.accuracy"></span></h3>
+          <h3>timeStamp : <span ng-bind="orientation.timeStamp"></span></h3>
+
+          <a  ng-click="stopWatchOrientation()" class="button button-outline icon-right ion-mic-a button-balanced">Stop Watch</a>
+        </div>
+
+
+        <div ng-if="sensor === 'currentLocation'">
+          <a  ng-click="currentLocation()" class="button button-outline icon-right ion-mic-a button-balanced">Get Current Location</a>
+          <h3>Lat : <span ng-bind="location.lat"></span></h3>
+          <h3>Long : <span ng-bind="location.long"></span></h3>
+        </div>
+
+        <div ng-if="sensor === 'watchLocation'">
+          <a  ng-click="watchLocation()" class="button button-outline icon-right ion-mic-a button-balanced">Watch Location</a>
+          <h3>Lat : <span ng-bind="location.lat"></span></h3>
+          <h3>Long : <span ng-bind="location.long"></span></h3>
+
+          <a  ng-click="stopWatchLocation()" class="button button-outline icon-right ion-mic-a button-balanced">Stop Watch</a>
+        </div>
+
+        <h1>{{event}}</h1> -->
+
+    </ion-content>
+</ion-view>

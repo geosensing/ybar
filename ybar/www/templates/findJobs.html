@@ -1,0 +1,19 @@
+<ion-view title="Find Jobs" id="page9">
+    <ion-content padding="false" class="has-header">
+      <div class="job-card" ui-sref="menu.job({job_id: job.id})" style="background-image:url({{job.job_image}})" ng-repeat="job in jobs">
+        <h4 ng-bind="job.title"></h4>
+      </div>
+        <!-- <div class="list card">
+            <div style="margin: 0px; line-height: 250px; text-align: center; background-color: rgb(232, 235, 239);">
+                <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+            </div>
+            <ion-item class="dark  " id="findJobs-list-item19" ui-sref="job({job_id: job.id})">{{job.title}}</ion-item>
+        </div>
+        <div class="list card " ng-repeat="job in jobs">
+            <div style="margin: 0px; line-height: 250px; text-align: center; background-color: rgb(232, 235, 239);">
+                <i class="icon ion-image" style="font-size: 64px; color: rgb(136, 136, 136); vertical-align: middle;"></i>
+            </div>
+            <ion-item class="dark  " id="findJobs-list-item19" ui-sref="job({job_id: job.id})">{{job.title}}</ion-item>
+        </div> -->
+    </ion-content>
+</ion-view>

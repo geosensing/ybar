@@ -1,0 +1,66 @@
+<ion-view title="Signup" id="page5">
+    <ion-content padding="true" class="has-header">
+      <div class="row">
+        <div class="createaccount-base" style="background:#E5E9EA; padding:0px; width:80vw;">
+          <label class="item item-input">
+            <i class="ion-ios-person-outline placeholder-icon" style="font-size:25px;"></i>
+            <input type="text" placeholder="Full Name" ng-model="user.fullname">
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="createaccount-base" style="background:#E5E9EA; padding:0px; width:80vw;">
+          <label class="item item-input">
+            <i class="ion-ios-email-outline placeholder-icon" style="font-size:25px;"></i>
+            <input type="email" placeholder="Email"  ng-model="user.email">
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="createaccount-base" style=" background:#E5E9EA; padding:0px; width:80vw; margin-bottom:20px;">
+          <label class="item item-input">
+            <i class="ion-ios-locked-outline placeholder-icon" style="font-size:25px;"></i>
+            <input type="password" placeholder="Password" ng-model="user.password">
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="createaccount-base" style=" background:#E5E9EA; padding:0px; width:80vw; margin-bottom:20px;">
+          <label class="item item-input">
+            <i class="ion-ios-locked-outline placeholder-icon" style="font-size:25px;"></i>
+            <input type="password"  placeholder="Repeat Password" ng-model="user.repassword">
+          </label>
+        </div>
+      </div>
+      <div class="createaccount-base" ng-click="adduser()" style=" background:#292C34; padding:12px; width:80vw;">
+        <a class="createaccount">Register</a>
+      </div>
+      <div class="createaccount-base" style=" background:transparent; padding:12px; width:80vw;">
+        <a ui-sref="login" class="createaccount" style="color: #8E8E93">Login</a>
+      </div>
+      <div style="text-align: center; width:100%;" ng-if="loader">
+          <ion-spinner style="display: inline-block;" icon="lines"></ion-spinner>
+      </div>
+      <h5 ng-bind="signupError" style="width:100%; text-align:center;"></h5>
+        <!-- <form id="signup-form2" class="list ">
+            <ion-list id="signup-list3">
+                <label class="item item-input " id="signup-input3">
+                    <input type="text" placeholder="Name" ng-model="user.fullname">
+                </label>
+                <label class="item item-input " id="signup-input4">
+                    <input type="text" placeholder="Username" ng-model="user.username">
+                </label>
+                <label class="item item-input " id="signup-input4">
+                    <input type="text" placeholder="Email" ng-model="user.email">
+                </label>
+                <label class="item item-input " id="signup-input5">
+                    <input type="password" placeholder="Password" ng-model="user.password">
+                </label>
+            </ion-list>
+            <label class="item item-input " id="signup-input10">
+                <input type="password" placeholder="Repeat Password" ng-model="user.repassword">
+            </label>
+            <button ng-click="adduser()" id="signup-button3" class=" button button-stable  button-block ">Sign up</button>
+        </form> -->
+    </ion-content>
+</ion-view>

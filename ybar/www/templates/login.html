@@ -1,0 +1,33 @@
+<ion-view cache-view="false" title="Login" hide-nav-bar="true" hide-back-button="true" id="page4">
+    <ion-content class="loginPage" padding="true" class="manual-ios-statusbar-padding bounceIn" scroll="false">
+      <!-- <div class="loginimage" style="background-image:url(img/2.jpg); background-size:cover; background-position:center;">
+        <div class="text2" style="text-align: center; color: white; padding-top:80px;">
+          <p>YBar</p>
+        </div>
+        <div class="text1" style="text-align: center; color: #E5E9EA; padding-top:30px; ">
+          <p>Create a new YBar Account to</p>
+          <p>do awesome jobs</p>
+        </div>
+      </div> -->
+      <div class="createaccount-base" style="background:#E5E9EA; padding:0px; width:80vw;">
+        <label class="item item-input">
+          <i class="ion-ios-people-outline placeholder-icon" style="font-size:25px;"></i>
+          <input type="email" placeholder="Email" ng-model="user.username">
+        </label>
+      </div>
+      <div class="createaccount-base" style=" background:#E5E9EA; padding:0px; width:80vw; margin-bottom:20px;">
+        <label class="item item-input">
+          <i class="ion-ios-locked-outline placeholder-icon" style="font-size:25px;"></i>
+          <input type="password" placeholder="Password" ng-model="user.password">
+        </label>
+      </div>
+      <div class="createaccount-base" ng-click="login();" style=" background:#292C34; padding:12px; width:80vw;">
+        <a class="createaccount">Sign In</a>
+      </div>
+      <div class="createaccount-base" style=" background:transparent; padding:12px; width:80vw;">
+        <a ui-sref="resetPassword" class="createaccount" style="color: #8E8E93">Forgot Password?</a>
+      </div>
+      <h5 ng-bind="loginError" style="width:100%; text-align:center;"></h5>
+      <ion-spinner ng-if="loader" icon="lines"></ion-spinner>
+    </ion-content>
+</ion-view>

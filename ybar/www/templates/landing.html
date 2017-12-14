@@ -1,0 +1,62 @@
+<ion-view cache-view="false" title="Landing" hide-nav-bar="true" id="page13">
+  <ion-content>
+    <div ng-if="view === 'loader'" class="vertical-center">
+      <ion-spinner icon="lines"></ion-spinner>
+      <h5 style="width:100%; text-align:center;">Signing in...</h5>
+    </div>
+    <div ng-if="view === 'interneterror'" class="vertical-center">
+      <h5 style="width:100%; text-align:center;">No internet connection found.</h5>
+      <h5 style="width:100%; text-align:center;">Check your internet and try again.</h5>
+      <div class="row">
+        <div class="col col-33 col-offset-33">
+          <a class="round small padding" ng-click="AuthValidate()">Retry</a>
+        </div>
+      </div>
+    </div>
+    <div ng-if="view === 'landing'">
+      <div class="image">
+        <ion-slide-box>
+          <ion-slide style="background-image:url(img/2.jpg); background-size:cover; background-position:center;">
+            <div class="slidebox blue">
+              <div class="text2">
+                <p>Welcome To</p>
+                <p>YBar</p>
+              </div>
+              <div class="text1">
+                <p>Create a new YBar Account to</p>
+                <p>do awesome jobs</p>
+              </div>
+            </div>
+          </ion-slide>
+          <ion-slide style="background-image:url(img/7.jpg); background-size:cover; background-position:center;">
+            <div class="slidebox yellow">
+              <div class="text2">
+                <p>Welcome To</p>
+                <p>YBar</p>
+              </div>
+              <div class="text1">
+                <p>Create a new YBar Account to</p>
+                <p>do awesome jobs</p>
+              </div>
+            </div>
+          </ion-slide>
+        </ion-slide-box>
+      </div>
+      <div class="bottom">
+        <div class="row">
+          <div class="col">
+            <a class="round large padding" ui-sref="loginfb">Login With Facebook</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <a class="round small padding" ui-sref="login">Login</a>
+          </div>
+          <div class="col">
+            <a class="round small padding" ui-sref="signup">Register</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

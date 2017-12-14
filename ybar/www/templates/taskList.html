@@ -1,0 +1,82 @@
+<ion-view cache-view="false" title="{{job.title}}" id="page10">
+    <ion-content padding="false"  scroll="true"  class="has-header">
+      <div class="task header outer-box" style="background-image: url({{task.image}});">
+        <div class="row">
+          <div class="col">
+            <span class="task header date">{{task.end_date | date : format : mediumDate}}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="task header title" ng-bind="task.title"></span>
+          </div>
+        </div>
+      </div>
+      <div class="row task description">
+        <div class="col">
+          <p class="padding" ng-bind="task.description">
+          </p>
+        </div>
+      </div>
+      <div class="row task detail-box">
+        <div class="col">
+          <div class="row task detail-box detail-item padding">
+            <div class="col col-50">
+              <span class="task detail detail-head"><i class="ion-android-calendar"></i> Task Date</span>
+            </div>
+            <div class="col col-50">
+              <span class="task detail detail-value">{{task.end_date | date : format : mediumDate}}</span>
+            </div>
+          </div>
+          <div class="row task detail-box detail-item padding">
+            <div class="col col-50">
+              <span class="task detail detail-head"><i class="ion-android-time"></i> Time</span>
+            </div>
+            <div class="col col-50">
+              <span class="task detail detail-value">{{task.end_time}}</span>
+            </div>
+          </div>
+          <div class="row task detail-box detail-item padding">
+            <div class="col col-50">
+              <span class="task detail detail-head"><i class="ion-android-pin"></i> Location</span>
+            </div>
+            <div class="col col-50">
+              <span ng-click="task.showFullAddress = !task.showFullAddress;" ng-class="{'task':true, 'detail':true, 'detail-value':true, 'show': task.showFullAddress}" ng-bind="task.address"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="map" ng-if="showMap" style="position:static; min-height:30vh;">
+
+      </div>
+      <div class="row">
+        <div class="col">
+          <a class="round large padding" ng-click="acceptTask('now')">Do Now</a>
+        </div>
+        <div class="col">
+          <a class="round small padding" ng-click="acceptTask('later')">Do Later</a>
+        </div>
+      </div>
+      <div class="chat-history">
+        <ul>
+          <li class="li-{{message.sender}}" ng-repeat="message in messages">
+            <div class="{{message.sender}}">
+              {{message.message}}
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col col-80">
+          <label class="item item-input chatbox">
+            <textarea placeholder="Comments" ng-model="newmessage.text"></textarea>
+          </label>
+        </div>
+        <div class="col col-20">
+          <button class="button send-button" ng-click="sendMessage()">
+            <i class="ion-ios-paperplane-outline"></i>
+          </button>
+        </div>
+      </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,123 @@
+<ion-view title="Profile" id="page1">
+    <ion-content padding="true" class="has-header">
+      <ul class="list profile-list">
+        <ion-item class="image-container">
+          <div class="circular-menu">
+          </div>
+        </ion-item>
+        <li class="item">
+          <input type="text" placeholder="Full Name" ng-model="user.displayname" disabled="true">
+        </li>
+        <li class="item">
+          <input type="text" placeholder="Email"  ng-model="user.email" disabled="true">
+        </li>
+        <li class="item">
+          <select placeholder="Gender" ng-model="userProfile.gender">
+            <option selected></option>
+            <option>Female</option>
+            <option>Male</option>
+          </select>
+          <!-- <input type="text" placeholder="Gender" ng-model="userProfile.gender"> -->
+        </li>
+        <li class="item">
+          <input type="text" placeholder="Age" ng-model="userProfile.age">
+        </li>
+        <li class="item">
+          <input type="text" placeholder="Phone" ng-model="userProfile.phone">
+        </li>
+        <li class="item">
+          <input type="text" placeholder="Street Address" ng-model="userProfile.streetAddress">
+        </li>
+        <li class="item">
+          <input type="text" placeholder="City" ng-model="userProfile.city">
+        </li>
+        <li class="item">
+          <input type="text" placeholder="State" ng-model="userProfile.state">
+        </li>
+        <li class="item">
+          <input type="text" placeholder="Country" ng-model="userProfile.country">
+        </li>
+        <li class="item">
+          <input type="text" placeholder="Postal Code" ng-model="userProfile.postalCode">
+        </li>
+      </ul>
+      <div class="createaccount-base" ng-click="saveProfile()" style=" background:#292C34; padding:12px; width:80vw;">
+        <a class="createaccount">Update Profile</a>
+      </div>
+      <!-- <div class="icons2text">
+        <div class="iconsin2text">
+          <input type="textfield" placeholder="Name">
+        </div>
+      </div>
+      <div class="icons2text">
+        <div class="iconsin2text">
+          <input type="textfield" placeholder="Occupation">
+        </div>
+      </div>
+      <div class="icons2text">
+        <div class="iconsin2text">
+          <input type="textfield" placeholder="Email">
+        </div>
+      </div>
+      <div class="icons2text">
+        <div class="iconsin2text">
+          <input type="textfield" placeholder="Password">
+        </div>
+      </div>
+      <div class="icons2text">
+        <div class="iconsin2text">
+          <input type="textfield" placeholder="Phone" >
+        </div>
+      </div> -->
+      <!-- <div class="bars" style="margin-top: 70px;">
+        <div class="barsinside">
+      	   Notification
+         </div>
+      </div>
+      <div class="bars" >
+        <div class="barsinside">
+      	   Privacy settings
+         </div>
+      </div>
+      <div class="bars" >
+        <div class="barsinside">
+      	   Delete Accounts
+         </div>
+      </div> -->
+        <!-- <ion-list id="profile-list6">
+            <ion-item class="item-divider " id="profile-list-item-divider1">Name</ion-item>
+            <ion-item id="profile-list-item10" ng-bind="user.displayname"></ion-item>
+            <ion-item class="item-divider " id="profile-list-item-divider1">Username</ion-item>
+            <ion-item id="profile-list-item10" ng-bind="user.username"></ion-item>
+            <ion-item class="item-divider " id="profile-list-item-divider2">Gender</ion-item>
+            <ion-radio ng-model="userProfile.gender" ng-value="'female'">Female</ion-radio>
+            <ion-radio ng-model="userProfile.gender" ng-value="'male'">Male</ion-radio>
+            <ion-item class="item-divider " id="profile-list-item-divider3">Email</ion-item>
+            <ion-item id="profile-list-item12" ng-bind="user.email"></ion-item>
+            <ion-item class="item-divider " id="profile-list-item-divider4">Age</ion-item>
+            <label class="item item-input">
+              <input type="number" placeholder="Age"  ng-model="userProfile.age">
+            </label>
+            <ion-item class="item-divider " id="profile-list-item-divider4">Phone</ion-item>
+            <label class="item item-input">
+              <input type="text" placeholder="Phone" ng-model="userProfile.phone">
+            </label>
+            <ion-item class="item-divider " id="profile-list-item-divider5">Address</ion-item>
+            <label class="item item-input">
+              <input type="text" placeholder="Street Address" ng-model="userProfile.streetAddress">
+            </label>
+            <label class="item item-input">
+              <input type="text" placeholder="City"  ng-model="userProfile.city">
+            </label>
+            <label class="item item-input">
+              <input type="text" placeholder="State"  ng-model="userProfile.state">
+            </label>
+            <label class="item item-input">
+              <input type="text" placeholder="Country"  ng-model="userProfile.country">
+            </label>
+        </ion-list>
+        <button ng-click="saveProfile();" class="button button-full button-positive">
+          Save Profile
+        </button> -->
+    </ion-content>
+</ion-view>

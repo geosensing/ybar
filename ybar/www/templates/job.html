@@ -1,0 +1,69 @@
+<ion-view title="Job" id="page10">
+    <ion-content padding="false" scroll="true" class="has-header">
+        <div class="job featured-image" style="background-image:url({{job.job_image}})">
+        </div>
+        <div class="row">
+          <div class="col">
+            <h3 class="job title" ng-bind="job.title"></h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="job subhead client padding-left">{{client.name}}</span>
+          </div>
+          <div class="col col-10">
+            <span class="job subhead bullet">
+              •
+            </span>
+          </div>
+          <div class="col">
+            <span class="job subhead date padding-right">{{job.start_date | date : format : mediumDate}}</span>
+          </div>
+        </div>
+        <div class="row job job-description">
+          <div class="col">
+            <p ng-bind="job.description"></p>
+          </div>
+        </div>
+        <div class="job task-box">
+          <div class="row">
+            <div class="col">
+              <span class="job all-tasks">All Tasks</span>
+            </div>
+          </div>
+          <div class="row job task-list task-item" ng-repeat="task in tasks" ui-sref="menu.task({job_id: job.id, task_id: task.id})">
+            <div class="col col-25">
+              <div class="job task-list task-image padding" style="background-image: url({{task.image}})">
+              </div>
+            </div>
+            <div class="col col-75">
+              <div class="row">
+                <div class="col">
+                  <span class="job task-list task-title">{{task.title}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <span class="job task-list client">{{client.name}}</span>
+                </div>
+                <div class="col">
+                  <span class="job task-list date">{{task.end_date | date : format : mediumDate}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <ion-slide-box>
+          <ion-slide ng-repeat="task in tasks">
+            <div class="list card">
+              <div class="item item-image">
+                <img src="https://placeholdit.imgix.net/~text?txtsize=40&txt=Coming%20Soon&w=250&h=250">
+              </div>
+              <a class="item" ui-sref="taskList({job_id: job.id, task_id: task.id})">
+                {{task.title}}
+              </a>
+            </div>
+          </ion-slide>
+      </ion-slide-box> -->
+    </ion-content>
+</ion-view>

@@ -1,0 +1,14 @@
+<ion-view title="My Tasks" id="page11">
+    <ion-content padding="true" class="has-header">
+      <div ng-if="loader" class="vertical-center">
+        <ion-spinner icon="lines"></ion-spinner>
+      </div>
+        <ion-list id="myTasks-list7">
+          <a class="item item-thumbnail-left" ui-sref="menu.doTask({task_id:task.id})" ng-repeat="task in tasks">
+            <img src="{{task.image}}">
+            <h2 ng-bind="task.title"></h2>
+            <p>Status : {{task.task_status}}</p>
+          </a>
+        </ion-list>
+    </ion-content>
+</ion-view>
