@@ -16,10 +16,14 @@ There are three key innovations:
 
 3. ML-based backend: Say we ask people to click photos of the streets to estimate potholes. But wouldn't it be neat to estimate the average number of potholes and average size automatically? With a ML-based backend trained on crowd-sourced data, we finally can. And over time, we can build a lot of these pipelines.
 
+### How Does *ybar* Work?
+
+The [initial spec sheet](ybar.pdf) for the software provides a great place to learn about how ybar is implemented. While implementing the software, we stumbled upon a few insights. Here's a document that discusses the [workflow and the general application architecture](app_architecture_workflow.md).
+
 ### Potential Applications
 
 - [Potential Applications](potential_applications.md)
 
 ### License
 
-The code relies on a lot of other open source software. Whatever restrictions are noted in use of that code, apply. Whatever amendments have been made at our end are released under the [MIT License](https://opensource.org/licenses/MIT). 
+The code relies heavily on other open source software. And the licensing restrictions noted by the respective open source software apply. Whatever amendments have been made at our end are released under the [MIT License](https://opensource.org/licenses/MIT). 
