@@ -10,6 +10,7 @@
 
   - **Noise Pollution**: Estimate noise pollution at a given location. This information is vital for potential home-buyers and people looking to estimate noise pollution due to construction, aircrafts, and such.
   - **Air pollution**: Calculate the air pollution through the city. Again it can be used to learn whether air pollution affects poor people more, who the hidden polluters are, etc. 
+  - **Bird Surveys**: How many birds were sighted in the city as a way to estimate number of birds in each season.
 
 ##### **Commercial:**
 
