@@ -11,6 +11,10 @@ import authRoutes from './routes/auth';
 import jobsRoutes from './routes/jobs';
 import tasksRoutes from './routes/tasks';
 import paymentsRoutes from './routes/payments';
+import profileRoutes from './routes/profile';
+import devicesRoutes from './routes/devices';
+import pointsRoutes from './routes/points';
+import clientsRoutes from './routes/clients';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -29,6 +33,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobsRoutes);
 app.use('/api/tasks', tasksRoutes);
 app.use('/api/payments', paymentsRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/devices', devicesRoutes);
+app.use('/api/points', pointsRoutes);
+app.use('/api/clients', clientsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

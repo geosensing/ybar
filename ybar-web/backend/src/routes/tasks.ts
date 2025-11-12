@@ -262,13 +262,18 @@ router.post('/:id/submit', authenticateToken, requireRole('worker'), upload.arra
   }
 });
 
-// Review task (admin only)
+// Review task (admin only) - Enhanced with worker rating per PRD
 router.post('/:id/review', authenticateToken, requireRole('admin'), (req: AuthRequest, res) => {
   try {
-    const { status, reviewer_notes } = req.body;
+    const { status, reviewer_notes, worker_rating } = req.body;
 
     if (!['approved', 'rejected'].includes(status)) {
       return res.status(400).json({ error: 'Invalid status' });
+    }
+
+    // Validate worker rating if provided (1-5 scale per PRD)
+    if (worker_rating !== undefined && (worker_rating < 1 || worker_rating > 5)) {
+      return res.status(400).json({ error: 'Worker rating must be between 1 and 5' });
     }
 
     const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(req.params.id) as any;
@@ -283,18 +288,39 @@ router.post('/:id/review', authenticateToken, requireRole('admin'), (req: AuthRe
 
     db.prepare(`
       UPDATE tasks
-      SET status = ?, reviewer_notes = ?, reviewed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP
+      SET status = ?, reviewer_notes = ?, worker_rating = ?, reviewed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
-    `).run(status, reviewer_notes || null, req.params.id);
+    `).run(status, reviewer_notes || null, worker_rating || null, req.params.id);
 
-    // Create payment if approved
+    // Create payment and points if approved
     if (status === 'approved') {
-      const job = db.prepare('SELECT pay_per_task FROM jobs WHERE id = ?').get(task.job_id) as any;
+      const job = db.prepare('SELECT pay_per_task, id FROM jobs WHERE id = ?').get(task.job_id) as any;
 
+      // Create payment record
       db.prepare(`
         INSERT INTO payments (worker_id, task_id, amount, status)
         VALUES (?, ?, ?, 'pending')
       `).run(task.worker_id, req.params.id, job.pay_per_task);
+
+      // Add points to worker account (per PRD points system)
+      const currentBalance = db.prepare(`
+        SELECT COALESCE(SUM(points), 0) as balance
+        FROM points
+        WHERE user_id = ?
+      `).get(task.worker_id) as any;
+
+      const newBalance = currentBalance.balance + job.pay_per_task;
+
+      db.prepare(`
+        INSERT INTO points (user_id, job_id, points, transaction_type, balance_after, description)
+        VALUES (?, ?, ?, 'earned', ?, ?)
+      `).run(
+        task.worker_id,
+        job.id,
+        job.pay_per_task,
+        newBalance,
+        `Earned from task ${req.params.id}`
+      );
     }
 
     const updatedTask = db.prepare('SELECT * FROM tasks WHERE id = ?').get(req.params.id);

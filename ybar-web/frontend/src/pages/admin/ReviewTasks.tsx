@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import { tasksAPI } from '@/lib/api';
 import type { Task } from '@/types';
-import { Check, X, FileText } from 'lucide-react';
+import { Check, X, FileText, Star } from 'lucide-react';
 
 export default function AdminReviewTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [reviewNotes, setReviewNotes] = useState('');
+  const [workerRating, setWorkerRating] = useState<number>(0);
   const [reviewing, setReviewing] = useState(false);
 
   useEffect(() => {
@@ -29,8 +30,9 @@ export default function AdminReviewTasks() {
   const handleReview = async (taskId: number, status: 'approved' | 'rejected') => {
     setReviewing(true);
     try {
-      await tasksAPI.review(taskId, status, reviewNotes);
+      await tasksAPI.review(taskId, status, reviewNotes, workerRating > 0 ? workerRating : undefined);
       setReviewNotes('');
+      setWorkerRating(0);
       setSelectedTask(null);
       await loadTasks();
     } catch (error) {
@@ -139,6 +141,37 @@ export default function AdminReviewTasks() {
                     </div>
                   </div>
                 )}
+
+                <div className="border-t pt-4">
+                  <h3 className="font-medium text-gray-900 mb-2">Rate Worker (Optional)</h3>
+                  <div className="flex items-center space-x-2">
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <button
+                        key={rating}
+                        type="button"
+                        onClick={() => setWorkerRating(rating)}
+                        className="focus:outline-none"
+                      >
+                        <Star
+                          className={`h-8 w-8 ${
+                            rating <= workerRating
+                              ? 'text-yellow-400 fill-current'
+                              : 'text-gray-300'
+                          }`}
+                        />
+                      </button>
+                    ))}
+                    {workerRating > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setWorkerRating(0)}
+                        className="ml-2 text-sm text-gray-500 hover:text-gray-700"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
+                </div>
 
                 <div className="border-t pt-4">
                   <h3 className="font-medium text-gray-900 mb-2">Review Notes (Optional)</h3>

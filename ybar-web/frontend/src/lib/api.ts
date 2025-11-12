@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AuthResponse, User, Job, Task, Payment, PaymentStats } from '@/types';
+import type { AuthResponse, User, Job, Task, Payment, PaymentStats, Client, Device, PointsBalance, PointsTransaction } from '@/types';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
@@ -116,8 +116,8 @@ export const tasksAPI = {
     return data;
   },
 
-  review: async (id: number, status: 'approved' | 'rejected', notes?: string): Promise<{ task: Task }> => {
-    const { data } = await api.post(`/tasks/${id}/review`, { status, reviewer_notes: notes });
+  review: async (id: number, status: 'approved' | 'rejected', notes?: string, worker_rating?: number): Promise<{ task: Task }> => {
+    const { data } = await api.post(`/tasks/${id}/review`, { status, reviewer_notes: notes, worker_rating });
     return data;
   },
 
@@ -146,6 +146,112 @@ export const paymentsAPI = {
 
   getStats: async (): Promise<{ stats: PaymentStats }> => {
     const { data } = await api.get('/payments/stats/summary');
+    return data;
+  },
+};
+
+// Profile API
+export const profileAPI = {
+  get: async (): Promise<{ user: User }> => {
+    const { data } = await api.get('/profile');
+    return data;
+  },
+
+  update: async (userData: Partial<User>): Promise<{ user: User }> => {
+    const { data } = await api.put('/profile', userData);
+    return data;
+  },
+
+  delete: async (password: string): Promise<void> => {
+    await api.delete('/profile', { data: { password } });
+  },
+
+  changePassword: async (current_password: string, new_password: string): Promise<void> => {
+    await api.post('/profile/change-password', { current_password, new_password });
+  },
+};
+
+// Devices API
+export const devicesAPI = {
+  getAll: async (): Promise<{ devices: Device[] }> => {
+    const { data } = await api.get('/devices');
+    return data;
+  },
+
+  register: async (deviceData: { device_id: string; device_type?: string; device_name?: string }): Promise<{ device: Device }> => {
+    const { data } = await api.post('/devices/register', deviceData);
+    return data;
+  },
+
+  deregister: async (id: number): Promise<void> => {
+    await api.delete(`/devices/${id}`);
+  },
+
+  ping: async (id: number): Promise<void> => {
+    await api.post(`/devices/${id}/ping`);
+  },
+};
+
+// Points API
+export const pointsAPI = {
+  getBalance: async (): Promise<PointsBalance> => {
+    const { data } = await api.get('/points/balance');
+    return data;
+  },
+
+  reimburse: async (): Promise<any> => {
+    const { data } = await api.post('/points/reimburse');
+    return data;
+  },
+
+  getAdminTransactions: async (user_id?: number, transaction_type?: string): Promise<{ transactions: PointsTransaction[] }> => {
+    const { data } = await api.get('/points/admin/transactions', { params: { user_id, transaction_type } });
+    return data;
+  },
+
+  adjustPoints: async (user_id: number, points: number, description?: string): Promise<any> => {
+    const { data } = await api.post('/points/admin/adjust', { user_id, points, description });
+    return data;
+  },
+};
+
+// Clients API
+export const clientsAPI = {
+  getAll: async (): Promise<{ clients: Client[] }> => {
+    const { data } = await api.get('/clients');
+    return data;
+  },
+
+  getById: async (id: number): Promise<{ client: Client }> => {
+    const { data } = await api.get(`/clients/${id}`);
+    return data;
+  },
+
+  create: async (clientData: Partial<Client>): Promise<{ client: Client }> => {
+    const { data } = await api.post('/clients', clientData);
+    return data;
+  },
+
+  update: async (id: number, clientData: Partial<Client>): Promise<{ client: Client }> => {
+    const { data } = await api.put(`/clients/${id}`, clientData);
+    return data;
+  },
+
+  delete: async (id: number): Promise<void> => {
+    await api.delete(`/clients/${id}`);
+  },
+};
+
+// Extended Jobs API for CSV upload
+export const jobsExtendedAPI = {
+  uploadTasks: async (jobId: number, file: File): Promise<{ message: string; created: number; errors?: string[] }> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const { data } = await api.post(`/jobs/${jobId}/upload-tasks`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return data;
   },
 };
