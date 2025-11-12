@@ -1,8 +1,39 @@
 import { Router } from 'express';
 import { authenticateToken, requireRole, AuthRequest } from '../middleware/auth';
 import db from '../db';
+import multer from 'multer';
+import * as path from 'path';
+import * as fs from 'fs';
+import csv from 'csv-parser';
 
 const router = Router();
+
+// Configure multer for CSV uploads
+const csvStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadsDir = process.env.UPLOADS_DIR || path.join(__dirname, '../../uploads/csv');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'tasks-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const uploadCSV = multer({
+  storage: csvStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'text/csv' || path.extname(file.originalname) === '.csv') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only CSV files are allowed'));
+    }
+  }
+});
 
 // Get all active jobs (for workers)
 router.get('/', authenticateToken, (req: AuthRequest, res) => {
@@ -166,6 +197,108 @@ router.get('/:id/stats', authenticateToken, requireRole('admin'), (req: AuthRequ
   } catch (error) {
     console.error('Get job stats error:', error);
     res.status(500).json({ error: 'Failed to fetch job statistics' });
+  }
+});
+
+// Bulk create tasks from CSV (admin only) - Per PRD requirement
+router.post('/:id/upload-tasks', authenticateToken, requireRole('admin'), uploadCSV.single('file'), async (req: AuthRequest, res) => {
+  try {
+    const jobId = req.params.id;
+
+    // Verify job exists
+    const job = db.prepare('SELECT * FROM jobs WHERE id = ?').get(jobId);
+    if (!job) {
+      return res.status(404).json({ error: 'Job not found' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'CSV file is required' });
+    }
+
+    const tasks: any[] = [];
+    const errors: string[] = [];
+
+    // Parse CSV file
+    await new Promise<void>((resolve, reject) => {
+      fs.createReadStream(req.file!.path)
+        .pipe(csv())
+        .on('data', (row) => {
+          // Expected CSV columns: latitude, longitude, location_name, date, start_time, end_time, title, description
+          // Or at minimum: latitude, longitude
+          try {
+            const task: any = {
+              job_id: jobId,
+              title: row.title || row.Title || `Task at ${row.location_name || 'Location'}`,
+              description: row.description || row.Description || `Complete task at location`,
+              latitude: parseFloat(row.latitude || row.lat || row.Latitude),
+              longitude: parseFloat(row.longitude || row.long || row.lng || row.Longitude),
+              location_name: row.location_name || row.location || row.Location || null,
+              start_time: row.start_time || row.date || null,
+              end_time: row.end_time || null,
+              status: 'available'
+            };
+
+            // Validate required fields
+            if (isNaN(task.latitude) || isNaN(task.longitude)) {
+              errors.push(`Invalid coordinates in row: ${JSON.stringify(row)}`);
+            } else {
+              tasks.push(task);
+            }
+          } catch (error) {
+            errors.push(`Error parsing row: ${JSON.stringify(row)} - ${error}`);
+          }
+        })
+        .on('end', resolve)
+        .on('error', reject);
+    });
+
+    // Delete the uploaded file
+    fs.unlinkSync(req.file.path);
+
+    if (tasks.length === 0) {
+      return res.status(400).json({ error: 'No valid tasks found in CSV', errors });
+    }
+
+    // Insert tasks into database
+    const insertTask = db.prepare(`
+      INSERT INTO tasks (
+        job_id, title, description, latitude, longitude, location_name,
+        start_time, end_time, status
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    let insertedCount = 0;
+    const insertMany = db.transaction((tasksToInsert: any[]) => {
+      for (const task of tasksToInsert) {
+        insertTask.run(
+          task.job_id,
+          task.title,
+          task.description,
+          task.latitude,
+          task.longitude,
+          task.location_name,
+          task.start_time,
+          task.end_time,
+          task.status
+        );
+        insertedCount++;
+      }
+    });
+
+    insertMany(tasks);
+
+    res.json({
+      message: 'Tasks created successfully',
+      created: insertedCount,
+      errors: errors.length > 0 ? errors : undefined
+    });
+  } catch (error) {
+    console.error('Upload tasks error:', error);
+    // Clean up uploaded file on error
+    if (req.file && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
+    res.status(500).json({ error: 'Failed to upload tasks' });
   }
 });
 

@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3';
 
 export function createTables(db: Database.Database): void {
-  // Users table
+  // Users table - Enhanced per PRD requirements
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -9,7 +9,11 @@ export function createTables(db: Database.Database): void {
       password_hash TEXT NOT NULL,
       role TEXT NOT NULL CHECK(role IN ('admin', 'worker')),
       name TEXT NOT NULL,
+      sex TEXT,
       phone TEXT,
+      address TEXT,
+      age INTEGER,
+      paytm TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
@@ -50,7 +54,7 @@ export function createTables(db: Database.Database): void {
     );
   `);
 
-  // Tasks table (individual task assignments)
+  // Tasks table (individual task assignments) - Enhanced per PRD
   db.exec(`
     CREATE TABLE IF NOT EXISTS tasks (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,12 +65,15 @@ export function createTables(db: Database.Database): void {
       latitude REAL,
       longitude REAL,
       location_name TEXT,
+      start_time DATETIME,
+      end_time DATETIME,
       status TEXT DEFAULT 'available' CHECK(status IN ('available', 'assigned', 'submitted', 'approved', 'rejected')),
       assigned_at DATETIME,
       submitted_at DATETIME,
       reviewed_at DATETIME,
       submission_data TEXT,
       reviewer_notes TEXT,
+      worker_rating INTEGER CHECK(worker_rating BETWEEN 1 AND 5),
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
@@ -102,6 +109,37 @@ export function createTables(db: Database.Database): void {
     );
   `);
 
+  // Devices table - Per PRD requirement for device registration
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS devices (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      device_id TEXT NOT NULL,
+      device_type TEXT,
+      device_name TEXT,
+      registered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      last_active DATETIME,
+      UNIQUE(user_id, device_id),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+  `);
+
+  // Points table - Per PRD for points/reimbursement system
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS points (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      job_id INTEGER,
+      points REAL NOT NULL,
+      transaction_type TEXT NOT NULL CHECK(transaction_type IN ('earned', 'reimbursed', 'adjusted')),
+      balance_after REAL NOT NULL,
+      description TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (job_id) REFERENCES jobs(id)
+    );
+  `);
+
   // Create indexes for better performance
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_tasks_job_id ON tasks(job_id);
@@ -110,6 +148,8 @@ export function createTables(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_jobs_status ON jobs(status);
     CREATE INDEX IF NOT EXISTS idx_payments_worker_id ON payments(worker_id);
     CREATE INDEX IF NOT EXISTS idx_task_files_task_id ON task_files(task_id);
+    CREATE INDEX IF NOT EXISTS idx_devices_user_id ON devices(user_id);
+    CREATE INDEX IF NOT EXISTS idx_points_user_id ON points(user_id);
   `);
 
   console.log('Database tables created successfully');
@@ -117,6 +157,8 @@ export function createTables(db: Database.Database): void {
 
 export function dropTables(db: Database.Database): void {
   db.exec(`
+    DROP TABLE IF EXISTS points;
+    DROP TABLE IF EXISTS devices;
     DROP TABLE IF EXISTS task_files;
     DROP TABLE IF EXISTS payments;
     DROP TABLE IF EXISTS tasks;

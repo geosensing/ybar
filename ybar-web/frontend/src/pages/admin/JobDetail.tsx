@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Layout from '@/components/Layout';
-import { jobsAPI, tasksAPI } from '@/lib/api';
+import { jobsAPI, tasksAPI, jobsExtendedAPI } from '@/lib/api';
 import type { Job, Task } from '@/types';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { ArrowLeft, Plus, Upload } from 'lucide-react';
 
 interface TaskForm {
   title: string;
@@ -20,6 +20,9 @@ export default function AdminJobDetail() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [showTaskForm, setShowTaskForm] = useState(false);
+  const [showCSVUpload, setShowCSVUpload] = useState(false);
+  const [csvFile, setCSVFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
   const { register, handleSubmit, reset } = useForm<TaskForm>();
 
   useEffect(() => {
@@ -54,6 +57,30 @@ export default function AdminJobDetail() {
     }
   };
 
+  const handleCSVUpload = async () => {
+    if (!csvFile) {
+      alert('Please select a CSV file');
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const result = await jobsExtendedAPI.uploadTasks(Number(id), csvFile);
+      alert(`Successfully created ${result.created} tasks!`);
+      if (result.errors && result.errors.length > 0) {
+        console.warn('CSV upload errors:', result.errors);
+      }
+      setCSVFile(null);
+      setShowCSVUpload(false);
+      loadJobAndTasks();
+    } catch (error: any) {
+      console.error('Failed to upload CSV:', error);
+      alert(error.response?.data?.error || 'Failed to upload CSV file');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   if (loading) {
     return (
       <Layout title="Job Details">
@@ -85,13 +112,22 @@ export default function AdminJobDetail() {
             <ArrowLeft className="h-4 w-4 mr-1" />
             Back to Jobs
           </Link>
-          <button
-            onClick={() => setShowTaskForm(!showTaskForm)}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
-          >
-            <Plus className="h-4 w-4 mr-2" />
-            Add Task
-          </button>
+          <div className="flex space-x-3">
+            <button
+              onClick={() => setShowCSVUpload(!showCSVUpload)}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+            >
+              <Upload className="h-4 w-4 mr-2" />
+              Upload CSV
+            </button>
+            <button
+              onClick={() => setShowTaskForm(!showTaskForm)}
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Add Task
+            </button>
+          </div>
         </div>
 
         <div className="bg-white shadow rounded-lg p-6">
@@ -128,6 +164,46 @@ export default function AdminJobDetail() {
             </div>
           </div>
         </div>
+
+        {showCSVUpload && (
+          <div className="bg-white shadow rounded-lg p-6">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Upload Tasks from CSV</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">CSV File</label>
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={(e) => setCSVFile(e.target.files?.[0] || null)}
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+                />
+                <p className="mt-2 text-xs text-gray-500">
+                  CSV should include columns: latitude, longitude, title (optional), description (optional), location_name (optional), start_time (optional), end_time (optional)
+                </p>
+              </div>
+              <div className="flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCSVUpload(false);
+                    setCSVFile(null);
+                  }}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCSVUpload}
+                  disabled={!csvFile || uploading}
+                  className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {uploading ? 'Uploading...' : 'Upload Tasks'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {showTaskForm && (
           <div className="bg-white shadow rounded-lg p-6">

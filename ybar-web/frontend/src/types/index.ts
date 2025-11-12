@@ -3,8 +3,15 @@ export interface User {
   email: string;
   role: 'admin' | 'worker';
   name: string;
+  sex?: string;
   phone?: string;
+  address?: string;
+  age?: number;
+  paytm?: string;
+  average_rating?: number;
+  total_ratings?: number;
   created_at?: string;
+  updated_at?: string;
 }
 
 export interface AuthResponse {
@@ -45,12 +52,15 @@ export interface Task {
   latitude?: number;
   longitude?: number;
   location_name?: string;
+  start_time?: string;
+  end_time?: string;
   status: 'available' | 'assigned' | 'submitted' | 'approved' | 'rejected';
   assigned_at?: string;
   submitted_at?: string;
   reviewed_at?: string;
   submission_data?: string;
   reviewer_notes?: string;
+  worker_rating?: number;
   created_at: string;
   updated_at: string;
   job_title?: string;
@@ -102,4 +112,33 @@ export interface Client {
   location?: string;
   notes?: string;
   created_at: string;
+  total_jobs?: number;
+  jobs?: any[];
+}
+
+export interface Device {
+  id: number;
+  device_id: string;
+  device_type?: string;
+  device_name?: string;
+  registered_at: string;
+  last_active?: string;
+}
+
+export interface PointsTransaction {
+  id: number;
+  user_id?: number;
+  points: number;
+  transaction_type: 'earned' | 'reimbursed' | 'adjusted';
+  balance_after: number;
+  description?: string;
+  created_at: string;
+  job_title?: string;
+  user_name?: string;
+  user_email?: string;
+}
+
+export interface PointsBalance {
+  current_balance: number;
+  transactions: PointsTransaction[];
 }
