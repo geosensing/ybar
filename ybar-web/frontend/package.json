@@ -35,6 +35,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "@playwright/test": "^1.40.1",
-    "vitest": "^4.0.8"
+    "vitest": "^4.1.0"
   }
 }
