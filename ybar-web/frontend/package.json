@@ -25,9 +25,9 @@
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.18.0",
     "@typescript-eslint/parser": "^6.18.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^6.0.2",
     "typescript": "^5.3.3",
-    "vite": "^7.3.2",
+    "vite": "^8.0.16",
     "tailwindcss": "^3.4.1",
     "postcss": "^8.4.33",
     "autoprefixer": "^10.4.16",
@@ -35,6 +35,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "@playwright/test": "^1.40.1",
-    "vitest": "^4.0.8"
+    "vitest": "^4.1.8"
   }
 }
