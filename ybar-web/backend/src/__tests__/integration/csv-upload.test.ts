@@ -2,6 +2,7 @@ import request from 'supertest';
 import express from 'express';
 import * as path from 'path';
 import * as fs from 'fs';
+import { tmpdir } from 'os';
 import { generateToken } from '../../middleware/auth';
 import jobsRoutes from '../../routes/jobs';
 import { testDb, createTestUser, createTestJob } from '../setup';
@@ -18,13 +19,14 @@ app.use('/jobs', jobsRoutes);
 describe('CSV Upload Integration Tests', () => {
   let dbModule: any;
   let csvFilePath: string;
+  let fixtureDir: string;
 
   beforeEach(() => {
     dbModule = require('../../db');
     dbModule.default = testDb;
 
-    // Create temporary CSV file
-    csvFilePath = path.join(__dirname, '../../../data/test-tasks.csv');
+    fixtureDir = fs.mkdtempSync(path.join(tmpdir(), 'ybar-csv-'));
+    csvFilePath = path.join(fixtureDir, 'test-tasks.csv');
     const csvContent = `latitude,longitude,location_name,title,description,start_time,end_time
 40.7589,-73.9851,Times Square,Task 1,Description 1,2025-01-15 09:00:00,2025-01-15 17:00:00
 40.7614,-73.9776,5th Avenue,Task 2,Description 2,2025-01-16 09:00:00,2025-01-16 17:00:00
@@ -34,10 +36,7 @@ describe('CSV Upload Integration Tests', () => {
   });
 
   afterEach(() => {
-    // Clean up CSV file
-    if (fs.existsSync(csvFilePath)) {
-      fs.unlinkSync(csvFilePath);
-    }
+    fs.rmSync(fixtureDir, { recursive: true, force: true });
   });
 
   it('should upload and create tasks from CSV', async () => {
@@ -67,7 +66,7 @@ describe('CSV Upload Integration Tests', () => {
     const job = createTestJob(testDb);
 
     // Create minimal CSV
-    const minimalCsvPath = path.join(__dirname, '../../../data/minimal-tasks.csv');
+    const minimalCsvPath = path.join(fixtureDir, 'minimal-tasks.csv');
     const minimalCsvContent = `lat,lng
 40.7589,-73.9851
 40.7614,-73.9776`;
@@ -90,7 +89,7 @@ describe('CSV Upload Integration Tests', () => {
     const job = createTestJob(testDb);
 
     // Create CSV with invalid coordinates
-    const invalidCsvPath = path.join(__dirname, '../../../data/invalid-tasks.csv');
+    const invalidCsvPath = path.join(fixtureDir, 'invalid-tasks.csv');
     const invalidCsvContent = `latitude,longitude
 invalid,invalid
 not-a-number,also-invalid`;
@@ -113,7 +112,7 @@ not-a-number,also-invalid`;
     const job = createTestJob(testDb);
 
     // Create a text file
-    const txtFilePath = path.join(__dirname, '../../../data/test.txt');
+    const txtFilePath = path.join(fixtureDir, 'test.txt');
     fs.writeFileSync(txtFilePath, 'This is not a CSV file');
 
     const response = await request(app)
@@ -132,7 +131,7 @@ not-a-number,also-invalid`;
     const job = createTestJob(testDb);
 
     // Create large CSV with 100 tasks
-    const largeCsvPath = path.join(__dirname, '../../../data/large-tasks.csv');
+    const largeCsvPath = path.join(fixtureDir, 'large-tasks.csv');
     let largeCsvContent = 'latitude,longitude,title\n';
     for (let i = 0; i < 100; i++) {
       largeCsvContent += `${40.75 + i * 0.001},${-73.98 + i * 0.001},Task ${i + 1}\n`;

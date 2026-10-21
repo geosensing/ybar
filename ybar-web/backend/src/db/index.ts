@@ -11,7 +11,7 @@ if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
-const db = new Database(dbPath);
+const db: Database.Database = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 
 export default db;

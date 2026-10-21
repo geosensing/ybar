@@ -1,9 +1,5 @@
-import Database from 'better-sqlite3';
-import * as path from 'path';
+import db from './index';
 import bcrypt from 'bcryptjs';
-
-const dbPath = path.join(__dirname, '../../data/ybar.db');
-const db = new Database(dbPath);
 
 console.log('Seeding database...');
 

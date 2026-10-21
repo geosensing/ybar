@@ -29,6 +29,7 @@ export default function Layout({ children, title }: LayoutProps) {
         { name: 'Browse Jobs', href: '/worker/jobs' },
         { name: 'My Tasks', href: '/worker/my-tasks' },
         { name: 'Payments', href: '/worker/payments' },
+        { name: 'Profile', href: '/worker/profile' },
       ];
 
   return (

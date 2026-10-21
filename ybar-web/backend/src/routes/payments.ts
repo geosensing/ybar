@@ -96,11 +96,11 @@ router.get('/stats/summary', authenticateToken, requireRole('admin'), (req: Auth
     const stats = db.prepare(`
       SELECT
         COUNT(*) as total_payments,
-        SUM(amount) as total_amount,
-        SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) as pending_amount,
-        SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) as paid_amount,
-        SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_count,
-        SUM(CASE WHEN status = 'paid' THEN 1 ELSE 0 END) as paid_count
+        COALESCE(SUM(amount), 0) as total_amount,
+        COALESCE(SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END), 0) as pending_amount,
+        COALESCE(SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END), 0) as paid_amount,
+        COALESCE(SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END), 0) as pending_count,
+        COALESCE(SUM(CASE WHEN status = 'paid' THEN 1 ELSE 0 END), 0) as paid_count
       FROM payments
     `).get();
 

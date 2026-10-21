@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { submittedTask } from './fixtures';
 
 test.describe('Admin Workflows', () => {
   test.beforeEach(async ({ page }) => {
@@ -77,31 +78,13 @@ test.describe('Admin Workflows', () => {
     await expect(page.locator('text=E2E Test Task')).toBeVisible();
   });
 
-  test('should review and approve submitted tasks', async ({ page }) => {
-    // Navigate to review page
-    await page.click('text=Review Tasks');
-    await expect(page).toHaveURL('/admin/review');
-
-    // Check if there are tasks to review
-    const tasksExist = await page.locator('.shadow.rounded-lg').count();
-
-    if (tasksExist > 0) {
-      // Click on first task
-      await page.locator('.shadow.rounded-lg').first().click();
-
-      // Should see review panel
-      await expect(page.locator('button:has-text("Approve")')).toBeVisible();
-      await expect(page.locator('button:has-text("Reject")')).toBeVisible();
-
-      // Can add review notes
-      await page.fill('textarea[placeholder*="notes"]', 'Great work!');
-
-      // Approve task
-      await page.click('button:has-text("Approve")');
-
-      // Task should be removed from pending list or page should update
-      await page.waitForTimeout(1000);
-    }
+  test('should review and approve submitted tasks', async ({ page, request }) => {
+    const { task } = await submittedTask(request);
+    await page.getByRole('link', { name: 'Review Tasks' }).click();
+    await page.getByRole('heading', { name: task.title, exact: true }).click();
+    await page.locator('textarea').fill('Great work!');
+    await page.getByRole('button', { name: 'Approve', exact: true }).click();
+    await expect(page.getByRole('heading', { name: task.title, exact: true })).toHaveCount(0);
   });
 
   test('should view and manage payments', async ({ page }) => {
@@ -111,7 +94,7 @@ test.describe('Admin Workflows', () => {
 
     // Check for payment stats
     await expect(page.locator('text=Total Amount')).toBeVisible();
-    await expect(page.locator('text=Pending')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Pending', exact: true })).toBeVisible();
 
     // Filter buttons should work
     await page.click('button:has-text("Pending")');
