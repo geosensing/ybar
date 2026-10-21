@@ -54,12 +54,12 @@ export default function WorkerJobs() {
       ) : (
         <div className="space-y-6">
           {/* Jobs Filter */}
-          <div className="bg-white shadow rounded-lg p-4">
+          <div className="bg-white shadow-sm rounded-lg p-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Job</label>
             <select
               value={selectedJob || ''}
               onChange={(e) => setSelectedJob(e.target.value ? Number(e.target.value) : null)}
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
             >
               <option value="">All Jobs</option>
               {jobs.map((job) => (
@@ -76,7 +76,7 @@ export default function WorkerJobs() {
               Available Tasks ({filteredTasks.length})
             </h2>
             {filteredTasks.length === 0 ? (
-              <div className="bg-white shadow rounded-lg p-12 text-center">
+              <div className="bg-white shadow-sm rounded-lg p-12 text-center">
                 <Briefcase className="mx-auto h-12 w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900">No tasks available</h3>
                 <p className="mt-1 text-sm text-gray-500">
@@ -86,7 +86,7 @@ export default function WorkerJobs() {
             ) : (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredTasks.map((task) => (
-                  <div key={task.id} className="bg-white overflow-hidden shadow rounded-lg">
+                  <div key={task.id} className="bg-white overflow-hidden shadow-sm rounded-lg">
                     <div className="p-5">
                       <div className="flex items-center justify-between mb-3">
                         <h3 className="text-lg font-medium text-gray-900 line-clamp-1">
@@ -115,7 +115,7 @@ export default function WorkerJobs() {
 
                       <button
                         onClick={() => handleAcceptTask(task.id)}
-                        className="w-full mt-3 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                        className="w-full mt-3 inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
                       >
                         Accept Task
                       </button>
@@ -131,7 +131,7 @@ export default function WorkerJobs() {
             <h2 className="text-lg font-medium text-gray-900 mb-4">Active Jobs</h2>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {jobs.map((job) => (
-                <div key={job.id} className="bg-white overflow-hidden shadow rounded-lg">
+                <div key={job.id} className="bg-white overflow-hidden shadow-sm rounded-lg">
                   <div className="p-5">
                     <h3 className="text-lg font-medium text-gray-900 mb-2">{job.title}</h3>
                     <p className="text-sm text-gray-500 line-clamp-2 mb-3">{job.description}</p>

@@ -43,10 +43,10 @@ export default function AdminPayments() {
       <div className="space-y-6">
         {stats && (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white overflow-hidden shadow-sm rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <DollarSign className="h-6 w-6 text-gray-400" />
                   </div>
                   <div className="ml-5 w-0 flex-1">
@@ -59,10 +59,10 @@ export default function AdminPayments() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white overflow-hidden shadow-sm rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <DollarSign className="h-6 w-6 text-yellow-400" />
                   </div>
                   <div className="ml-5 w-0 flex-1">
@@ -77,10 +77,10 @@ export default function AdminPayments() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="bg-white overflow-hidden shadow-sm rounded-lg">
               <div className="p-5">
                 <div className="flex items-center">
-                  <div className="flex-shrink-0">
+                  <div className="shrink-0">
                     <DollarSign className="h-6 w-6 text-green-400" />
                   </div>
                   <div className="ml-5 w-0 flex-1">
@@ -97,14 +97,14 @@ export default function AdminPayments() {
           </div>
         )}
 
-        <div className="bg-white shadow rounded-lg">
+        <div className="bg-white shadow-sm rounded-lg">
           <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-medium text-gray-900">Payment Records</h3>
               <div className="flex space-x-2">
                 <button
                   onClick={() => setFilter('all')}
-                  className={`px-3 py-1 text-sm rounded ${
+                  className={`px-3 py-1 text-sm rounded-sm ${
                     filter === 'all' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-700'
                   }`}
                 >
@@ -112,7 +112,7 @@ export default function AdminPayments() {
                 </button>
                 <button
                   onClick={() => setFilter('pending')}
-                  className={`px-3 py-1 text-sm rounded ${
+                  className={`px-3 py-1 text-sm rounded-sm ${
                     filter === 'pending' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-700'
                   }`}
                 >
@@ -120,7 +120,7 @@ export default function AdminPayments() {
                 </button>
                 <button
                   onClick={() => setFilter('paid')}
-                  className={`px-3 py-1 text-sm rounded ${
+                  className={`px-3 py-1 text-sm rounded-sm ${
                     filter === 'paid' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-700'
                   }`}
                 >
@@ -176,7 +176,7 @@ export default function AdminPayments() {
                         ${payment.amount.toFixed(2)}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 py-1 text-xs rounded ${
+                        <span className={`px-2 py-1 text-xs rounded-sm ${
                           payment.status === 'paid' ? 'bg-green-100 text-green-800' :
                           payment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                           'bg-red-100 text-red-800'

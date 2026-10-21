@@ -5,6 +5,7 @@ test.describe('Authentication', () => {
     await page.goto('/');
     await expect(page).toHaveURL('/login');
     await expect(page.locator('h1')).toContainText('ybar');
+    await expect(page.locator('button[type="submit"]')).toHaveCSS('background-color', 'rgb(2, 132, 199)');
     await expect(page.locator('h2')).toContainText('Sign in to your account');
   });
 

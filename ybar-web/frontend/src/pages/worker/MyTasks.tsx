@@ -66,7 +66,7 @@ export default function WorkerMyTasks() {
           <div className="flex space-x-2">
             <button
               onClick={() => setFilter('all')}
-              className={`px-3 py-1 text-sm rounded ${
+              className={`px-3 py-1 text-sm rounded-sm ${
                 filter === 'all' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-700'
               }`}
             >
@@ -74,7 +74,7 @@ export default function WorkerMyTasks() {
             </button>
             <button
               onClick={() => setFilter('assigned')}
-              className={`px-3 py-1 text-sm rounded ${
+              className={`px-3 py-1 text-sm rounded-sm ${
                 filter === 'assigned' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-700'
               }`}
             >
@@ -82,7 +82,7 @@ export default function WorkerMyTasks() {
             </button>
             <button
               onClick={() => setFilter('submitted')}
-              className={`px-3 py-1 text-sm rounded ${
+              className={`px-3 py-1 text-sm rounded-sm ${
                 filter === 'submitted' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-700'
               }`}
             >
@@ -90,7 +90,7 @@ export default function WorkerMyTasks() {
             </button>
             <button
               onClick={() => setFilter('approved')}
-              className={`px-3 py-1 text-sm rounded ${
+              className={`px-3 py-1 text-sm rounded-sm ${
                 filter === 'approved' ? 'bg-primary-100 text-primary-700' : 'bg-gray-100 text-gray-700'
               }`}
             >
@@ -104,7 +104,7 @@ export default function WorkerMyTasks() {
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
           </div>
         ) : filteredTasks.length === 0 ? (
-          <div className="bg-white shadow rounded-lg p-12 text-center">
+          <div className="bg-white shadow-sm rounded-lg p-12 text-center">
             <p className="text-gray-500">
               {filter === 'all' ? 'No tasks yet. Browse jobs to get started!' : `No ${filter} tasks`}
             </p>
@@ -123,7 +123,7 @@ export default function WorkerMyTasks() {
               <Link
                 key={task.id}
                 to={`/worker/tasks/${task.id}`}
-                className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow"
+                className="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-md transition-shadow"
               >
                 <div className="p-5">
                   <div className="flex items-start justify-between mb-3">
@@ -133,7 +133,7 @@ export default function WorkerMyTasks() {
                         {task.title}
                       </h3>
                     </div>
-                    <span className={`px-2 py-1 text-xs rounded ${getStatusColor(task.status)}`}>
+                    <span className={`px-2 py-1 text-xs rounded-sm ${getStatusColor(task.status)}`}>
                       {task.status}
                     </span>
                   </div>
@@ -159,7 +159,7 @@ export default function WorkerMyTasks() {
                   </div>
 
                   {task.reviewer_notes && (
-                    <div className="mt-3 p-2 bg-yellow-50 rounded text-sm text-yellow-800">
+                    <div className="mt-3 p-2 bg-yellow-50 rounded-sm text-sm text-yellow-800">
                       Note: {task.reviewer_notes}
                     </div>
                   )}

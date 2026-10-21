@@ -49,7 +49,7 @@ export default function AdminReviewTasks() {
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
         </div>
       ) : tasks.length === 0 ? (
-        <div className="bg-white shadow rounded-lg p-12 text-center">
+        <div className="bg-white shadow-sm rounded-lg p-12 text-center">
           <p className="text-gray-500">No tasks pending review</p>
         </div>
       ) : (
@@ -60,7 +60,7 @@ export default function AdminReviewTasks() {
               <div
                 key={task.id}
                 onClick={() => setSelectedTask(task)}
-                className={`bg-white shadow rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow ${
+                className={`bg-white shadow-sm rounded-lg p-4 cursor-pointer hover:shadow-md transition-shadow ${
                   selectedTask?.id === task.id ? 'ring-2 ring-primary-500' : ''
                 }`}
               >
@@ -90,7 +90,7 @@ export default function AdminReviewTasks() {
           {/* Review Panel */}
           <div className="lg:sticky lg:top-6 h-fit">
             {selectedTask ? (
-              <div className="bg-white shadow rounded-lg p-6 space-y-4">
+              <div className="bg-white shadow-sm rounded-lg p-6 space-y-4">
                 <div>
                   <h2 className="text-lg font-medium text-gray-900">{selectedTask.title}</h2>
                   <p className="text-sm text-gray-600 mt-1">{selectedTask.description}</p>
@@ -151,7 +151,7 @@ export default function AdminReviewTasks() {
                         aria-label={`Rate ${rating} stars`}
                         type="button"
                         onClick={() => setWorkerRating(rating)}
-                        className="focus:outline-none"
+                        className="focus:outline-hidden"
                       >
                         <Star
                           className={`h-8 w-8 ${
@@ -189,7 +189,7 @@ export default function AdminReviewTasks() {
                   <button
                     onClick={() => handleReview(selectedTask.id, 'approved')}
                     disabled={reviewing}
-                    className="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:opacity-50"
+                    className="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:opacity-50"
                   >
                     <Check className="h-4 w-4 mr-2" />
                     Approve
@@ -197,7 +197,7 @@ export default function AdminReviewTasks() {
                   <button
                     onClick={() => handleReview(selectedTask.id, 'rejected')}
                     disabled={reviewing}
-                    className="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 disabled:opacity-50"
+                    className="flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-red-600 hover:bg-red-700 disabled:opacity-50"
                   >
                     <X className="h-4 w-4 mr-2" />
                     Reject
@@ -205,7 +205,7 @@ export default function AdminReviewTasks() {
                 </div>
               </div>
             ) : (
-              <div className="bg-white shadow rounded-lg p-12 text-center">
+              <div className="bg-white shadow-sm rounded-lg p-12 text-center">
                 <p className="text-gray-500">Select a task to review</p>
               </div>
             )}

@@ -56,7 +56,7 @@ export default function AdminJobs() {
           <p className="text-gray-600">Create and manage data collection jobs</p>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
           >
             <Plus className="h-4 w-4 mr-2" />
             Create Job
@@ -64,7 +64,7 @@ export default function AdminJobs() {
         </div>
 
         {showForm && (
-          <div className="bg-white shadow rounded-lg p-6">
+          <div className="bg-white shadow-sm rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Create New Job</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -72,7 +72,7 @@ export default function AdminJobs() {
                   <label className="block text-sm font-medium text-gray-700">Title</label>
                   <input
                     {...register('title', { required: 'Title is required' })}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   />
                   {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
                 </div>
@@ -81,7 +81,7 @@ export default function AdminJobs() {
                   <label className="block text-sm font-medium text-gray-700">Location</label>
                   <input
                     {...register('location')}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -90,7 +90,7 @@ export default function AdminJobs() {
                   <textarea
                     {...register('description', { required: 'Description is required' })}
                     rows={3}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   />
                   {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>}
                 </div>
@@ -101,7 +101,7 @@ export default function AdminJobs() {
                     {...register('pay_per_task', { required: true, valueAsNumber: true })}
                     type="number"
                     step="0.01"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -110,7 +110,7 @@ export default function AdminJobs() {
                   <input
                     {...register('n_tasks', { required: true, valueAsNumber: true })}
                     type="number"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -120,7 +120,7 @@ export default function AdminJobs() {
                     {...register('n_tasks_per_worker_allowed', { required: true, valueAsNumber: true })}
                     type="number"
                     defaultValue={1}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -129,7 +129,7 @@ export default function AdminJobs() {
                   <input
                     {...register('start_date', { required: true })}
                     type="date"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
 
@@ -138,7 +138,7 @@ export default function AdminJobs() {
                   <input
                     {...register('end_date', { required: true })}
                     type="date"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
               </div>
@@ -153,7 +153,7 @@ export default function AdminJobs() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                  className="px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
                 >
                   Create Job
                 </button>
@@ -172,12 +172,12 @@ export default function AdminJobs() {
               <Link
                 key={job.id}
                 to={`/admin/jobs/${job.id}`}
-                className="bg-white overflow-hidden shadow rounded-lg hover:shadow-md transition-shadow"
+                className="bg-white overflow-hidden shadow-sm rounded-lg hover:shadow-md transition-shadow"
               >
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-lg font-medium text-gray-900">{job.title}</h3>
-                    <span className={`px-2 py-1 text-xs rounded ${
+                    <span className={`px-2 py-1 text-xs rounded-sm ${
                       job.status === 'active' ? 'bg-green-100 text-green-800' :
                       job.status === 'draft' ? 'bg-gray-100 text-gray-800' :
                       'bg-red-100 text-red-800'
@@ -212,7 +212,7 @@ export default function AdminJobs() {
         )}
 
         {!loading && jobs.length === 0 && !showForm && (
-          <div className="text-center py-12 bg-white rounded-lg shadow">
+          <div className="text-center py-12 bg-white rounded-lg shadow-sm">
             <p className="text-gray-500">No jobs found. Create your first job to get started.</p>
           </div>
         )}
