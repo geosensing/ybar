@@ -44,7 +44,7 @@ test.describe('PRD Features E2E Tests', () => {
 
       // Verify changes were saved
       await expect(page.locator('text=+1234567890')).toBeVisible();
-      await expect(page.locator('text=30')).toBeVisible();
+      await expect(page.getByText('30', { exact: true })).toBeVisible();
     });
 
     test('should display worker rating and points', async ({ page }) => {
