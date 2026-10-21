@@ -115,14 +115,14 @@ export default function AdminJobDetail() {
           <div className="flex space-x-3">
             <button
               onClick={() => setShowCSVUpload(!showCSVUpload)}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-xs text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
             >
               <Upload className="h-4 w-4 mr-2" />
               Upload CSV
             </button>
             <button
               onClick={() => setShowTaskForm(!showTaskForm)}
-              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+              className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Task
@@ -130,7 +130,7 @@ export default function AdminJobDetail() {
           </div>
         </div>
 
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow-sm rounded-lg p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="text-sm font-medium text-gray-500">Description</h3>
@@ -156,7 +156,7 @@ export default function AdminJobDetail() {
             </div>
             <div>
               <h3 className="text-sm font-medium text-gray-500">Status</h3>
-              <span className={`mt-1 inline-block px-2 py-1 text-xs rounded ${
+              <span className={`mt-1 inline-block px-2 py-1 text-xs rounded-sm ${
                 job.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
               }`}>
                 {job.status}
@@ -166,7 +166,7 @@ export default function AdminJobDetail() {
         </div>
 
         {showCSVUpload && (
-          <div className="bg-white shadow rounded-lg p-6">
+          <div className="bg-white shadow-sm rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Upload Tasks from CSV</h2>
             <div className="space-y-4">
               <div>
@@ -196,7 +196,7 @@ export default function AdminJobDetail() {
                   type="button"
                   onClick={handleCSVUpload}
                   disabled={!csvFile || uploading}
-                  className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {uploading ? 'Uploading...' : 'Upload Tasks'}
                 </button>
@@ -206,7 +206,7 @@ export default function AdminJobDetail() {
         )}
 
         {showTaskForm && (
-          <div className="bg-white shadow rounded-lg p-6">
+          <div className="bg-white shadow-sm rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Add New Task</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
@@ -261,7 +261,7 @@ export default function AdminJobDetail() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                  className="px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
                 >
                   Add Task
                 </button>
@@ -270,7 +270,7 @@ export default function AdminJobDetail() {
           </div>
         )}
 
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow-sm rounded-lg p-6">
           <h2 className="text-lg font-medium text-gray-900 mb-4">Tasks ({tasks.length})</h2>
           <div className="space-y-3">
             {tasks.map((task) => (
@@ -283,7 +283,7 @@ export default function AdminJobDetail() {
                       <p className="text-sm text-gray-500 mt-1">📍 {task.location_name}</p>
                     )}
                   </div>
-                  <span className={`px-2 py-1 text-xs rounded ${
+                  <span className={`px-2 py-1 text-xs rounded-sm ${
                     task.status === 'available' ? 'bg-blue-100 text-blue-800' :
                     task.status === 'assigned' ? 'bg-yellow-100 text-yellow-800' :
                     task.status === 'submitted' ? 'bg-purple-100 text-purple-800' :

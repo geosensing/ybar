@@ -58,7 +58,7 @@ test.describe('Admin Workflows', () => {
     await page.click('text=Jobs');
 
     // Click on first job
-    const firstJob = page.locator('.shadow.rounded-lg').first();
+    const firstJob = page.locator('.shadow-sm.rounded-lg').first();
     await firstJob.click();
 
     // Should be on job detail page

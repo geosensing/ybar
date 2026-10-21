@@ -36,10 +36,10 @@ export default function WorkerPayments() {
       <div className="space-y-6">
         {/* Stats */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <div className="bg-white overflow-hidden shadow rounded-lg">
+          <div className="bg-white overflow-hidden shadow-sm rounded-lg">
             <div className="p-5">
               <div className="flex items-center">
-                <div className="flex-shrink-0 rounded-md p-3 bg-green-500">
+                <div className="shrink-0 rounded-md p-3 bg-green-500">
                   <CheckCircle className="h-6 w-6 text-white" />
                 </div>
                 <div className="ml-5 w-0 flex-1">
@@ -56,10 +56,10 @@ export default function WorkerPayments() {
             </div>
           </div>
 
-          <div className="bg-white overflow-hidden shadow rounded-lg">
+          <div className="bg-white overflow-hidden shadow-sm rounded-lg">
             <div className="p-5">
               <div className="flex items-center">
-                <div className="flex-shrink-0 rounded-md p-3 bg-yellow-500">
+                <div className="shrink-0 rounded-md p-3 bg-yellow-500">
                   <Clock className="h-6 w-6 text-white" />
                 </div>
                 <div className="ml-5 w-0 flex-1">
@@ -78,7 +78,7 @@ export default function WorkerPayments() {
         </div>
 
         {/* Payment History */}
-        <div className="bg-white shadow rounded-lg">
+        <div className="bg-white shadow-sm rounded-lg">
           <div className="px-4 py-5 border-b border-gray-200 sm:px-6">
             <h3 className="text-lg font-medium text-gray-900">Payment History</h3>
           </div>
@@ -134,7 +134,7 @@ export default function WorkerPayments() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 py-1 text-xs rounded ${
+                        <span className={`px-2 py-1 text-xs rounded-sm ${
                           payment.status === 'paid' ? 'bg-green-100 text-green-800' :
                           payment.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                           'bg-red-100 text-red-800'

@@ -35,11 +35,11 @@ export default function Layout({ children, title }: LayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-200">
+      <nav className="bg-white shadow-xs border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
-              <div className="flex-shrink-0 flex items-center">
+              <div className="shrink-0 flex items-center">
                 <Link to={basePath} className="text-2xl font-bold text-primary-600">
                   ybar
                 </Link>
@@ -64,7 +64,7 @@ export default function Layout({ children, title }: LayoutProps) {
             <div className="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
               <div className="flex items-center text-sm text-gray-700">
                 <span className="font-medium">{user?.name}</span>
-                <span className="ml-2 px-2 py-1 text-xs bg-primary-100 text-primary-700 rounded">
+                <span className="ml-2 px-2 py-1 text-xs bg-primary-100 text-primary-700 rounded-sm">
                   {user?.role}
                 </span>
               </div>

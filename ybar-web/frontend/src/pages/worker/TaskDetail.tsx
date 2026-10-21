@@ -89,10 +89,10 @@ export default function WorkerTaskDetail() {
           Back to My Tasks
         </Link>
 
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow-sm rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-gray-900">{task.title}</h2>
-            <span className={`px-3 py-1 text-sm rounded ${
+            <span className={`px-3 py-1 text-sm rounded-sm ${
               task.status === 'assigned' ? 'bg-yellow-100 text-yellow-800' :
               task.status === 'submitted' ? 'bg-blue-100 text-blue-800' :
               task.status === 'approved' ? 'bg-green-100 text-green-800' :
@@ -159,7 +159,7 @@ export default function WorkerTaskDetail() {
         </div>
 
         {task.status === 'assigned' && (
-          <div className="bg-white shadow rounded-lg p-6">
+          <div className="bg-white shadow-sm rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Submit Task</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -170,7 +170,7 @@ export default function WorkerTaskDetail() {
                   value={submissionData}
                   onChange={(e) => setSubmissionData(e.target.value)}
                   rows={4}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-xs focus:outline-hidden focus:ring-primary-500 focus:border-primary-500"
                   placeholder="Add any notes about your submission..."
                 />
               </div>
@@ -185,7 +185,7 @@ export default function WorkerTaskDetail() {
                     <div className="flex text-sm text-gray-600">
                       <label
                         htmlFor="file-upload"
-                        className="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-none"
+                        className="relative cursor-pointer bg-white rounded-md font-medium text-primary-600 hover:text-primary-500 focus-within:outline-hidden"
                       >
                         <span>Upload files</span>
                         <input
@@ -229,7 +229,7 @@ export default function WorkerTaskDetail() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 disabled:opacity-50"
+                  className="px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 disabled:opacity-50"
                 >
                   {submitting ? 'Submitting...' : 'Submit Task'}
                 </button>
@@ -263,7 +263,7 @@ export default function WorkerTaskDetail() {
         )}
 
         {task.files && task.files.length > 0 && (
-          <div className="bg-white shadow rounded-lg p-6">
+          <div className="bg-white shadow-sm rounded-lg p-6">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Uploaded Files</h2>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
               {task.files.map((file) => (

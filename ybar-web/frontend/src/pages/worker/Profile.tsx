@@ -80,7 +80,7 @@ export default function WorkerProfile() {
     <Layout title="My Profile">
       <div className="space-y-6">
         {/* Points Balance */}
-        <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg shadow-lg p-6 text-white">
+        <div className="bg-linear-to-r from-primary-600 to-primary-700 rounded-lg shadow-lg p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-primary-100">Points Balance</p>
@@ -104,7 +104,7 @@ export default function WorkerProfile() {
         </div>
 
         {/* Profile Information */}
-        <div className="bg-white shadow rounded-lg">
+        <div className="bg-white shadow-sm rounded-lg">
           <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
             <div className="flex items-center">
               <UserIcon className="h-6 w-6 text-gray-400 mr-3" />
@@ -200,7 +200,7 @@ export default function WorkerProfile() {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
+                    className="px-4 py-2 border border-transparent rounded-md shadow-xs text-sm font-medium text-white bg-primary-600 hover:bg-primary-700"
                   >
                     Save Changes
                   </button>
@@ -242,7 +242,7 @@ export default function WorkerProfile() {
         </div>
 
         {/* Registered Devices */}
-        <div className="bg-white shadow rounded-lg">
+        <div className="bg-white shadow-sm rounded-lg">
           <div className="px-6 py-4 border-b border-gray-200 flex items-center">
             <Smartphone className="h-6 w-6 text-gray-400 mr-3" />
             <h2 className="text-lg font-medium text-gray-900">Registered Devices</h2>
@@ -268,7 +268,7 @@ export default function WorkerProfile() {
         </div>
 
         {/* Recent Transactions */}
-        <div className="bg-white shadow rounded-lg">
+        <div className="bg-white shadow-sm rounded-lg">
           <div className="px-6 py-4 border-b border-gray-200">
             <h2 className="text-lg font-medium text-gray-900">Recent Transactions</h2>
           </div>
