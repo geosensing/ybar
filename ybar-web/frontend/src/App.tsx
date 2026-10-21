@@ -11,6 +11,7 @@ import WorkerJobs from '@/pages/worker/Jobs';
 import WorkerMyTasks from '@/pages/worker/MyTasks';
 import WorkerTaskDetail from '@/pages/worker/TaskDetail';
 import WorkerPayments from '@/pages/worker/Payments';
+import WorkerProfile from '@/pages/worker/Profile';
 
 function App() {
   const { isAuthenticated, user } = useAuthStore();
@@ -48,6 +49,7 @@ function App() {
         <Route path="/worker/jobs" element={<WorkerJobs />} />
         <Route path="/worker/my-tasks" element={<WorkerMyTasks />} />
         <Route path="/worker/tasks/:id" element={<WorkerTaskDetail />} />
+        <Route path="/worker/profile" element={<WorkerProfile />} />
         <Route path="/worker/payments" element={<WorkerPayments />} />
         <Route path="*" element={<Navigate to="/worker" replace />} />
       </Routes>

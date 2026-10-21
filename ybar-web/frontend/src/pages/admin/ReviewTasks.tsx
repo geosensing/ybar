@@ -148,6 +148,7 @@ export default function AdminReviewTasks() {
                     {[1, 2, 3, 4, 5].map((rating) => (
                       <button
                         key={rating}
+                        aria-label={`Rate ${rating} stars`}
                         type="button"
                         onClick={() => setWorkerRating(rating)}
                         className="focus:outline-none"
